@@ -15,6 +15,18 @@ app.use(morgan("dev"));
 // routes
 app.use("/api/auth", authRouter);
 
+app.use((err, req, res, next) => {
+
+  if (process.env.NODE_ENV ===  "development"){
+    res.status(500).json({
+      message: err.message,
+      stack: err.stack
+    });
+    return;
+  }
+  res.status(500).json({message: "internal_server_error"});
+});
+
 const server = app.listen(port, () => console.log(`Server is up and running on port ${port}`));
 
 const startGracefulShutdown = () => {
