@@ -2,6 +2,8 @@ const express = require("express");
 const morgan = require("morgan");
 const shortid = require("shortid");
 const database = require("./configs/database");
+const swaggerUi = require('swagger-ui-express');
+const apiDocumentation = require('./docs/api_doc');
 
 require("dotenv").config();
 
@@ -10,6 +12,11 @@ const app = express();
 const authRouter = require("./routes/auth");
 const shortLinksRouter = require("./routes/shortlinks");
 const shortLinkRepo = require("./repositories/shortlinks");
+
+// swagger OpenApi
+if(process.env.NODE_ENV === "development"){
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumentation));
+}
 
 // middlerwares
 app.use(express.json());
