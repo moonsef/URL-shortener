@@ -15,11 +15,14 @@ app.use(morgan("dev"));
 // routes
 app.use("/api/auth", authRouter);
 
-app.listen(port, () => console.log(`Server is up and running on port ${port}`));
+const server = app.listen(port, () => console.log(`Server is up and running on port ${port}`));
 
 const startGracefulShutdown = () => {
-  console.log('Starting shutdown of express...');
+  console.log('Starting graceful shutdown...');
+  
+  server.close();
   database.end();
+
   process.exit(1);
 }
 
