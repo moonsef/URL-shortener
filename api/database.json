@@ -12,10 +12,10 @@
     "driver": "pg",
     "user": { "ENV": "DB_USERNAME" },
     "password": { "ENV": "DB_PASSWORD" },
-    "host": "localhost",
+    "host": { "ENV": "DB_HOST" },
     "database": { "ENV": "DB_NAME" },
     "port": "5432",
     "ssl": "false"
   },
-  "sql-file" : true
+  "sql-file": true
 }
