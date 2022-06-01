@@ -1,17 +1,29 @@
 const express = require("express");
 const morgan = require("morgan");
-const app = express()
-const authRouter = require("./routes/auth");
+const database = require("./configs/database");
 
 require("dotenv").config();
 
-const port = process.env.APP_PORT
+const port = process.env.APP_PORT;
 
-// middlerwares
-app.use(express.json())
-app.use(morgan('dev'))
+database
+  .connect()
+  .then(() => {
+    const app = express();
+    const authRouter = require("./routes/auth");
 
-// routes
-app.use("/api/auth", authRouter);
+    // middlerwares
+    app.use(express.json());
+    app.use(morgan("dev"));
 
-app.listen(port, () => console.log(`Server is up and running on port ${port}`));
+    // routes
+    app.use("/api/auth", authRouter);
+
+    app.listen(port, () =>
+      console.log(`Server is up and running on port ${port}`)
+    );
+  })
+  .catch((err) => {
+    console.log(err);
+    process.exit(0);
+  });
