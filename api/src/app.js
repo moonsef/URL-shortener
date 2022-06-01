@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const shortid = require("shortid");
 const database = require("./configs/database");
 
 require("dotenv").config();
@@ -8,6 +9,7 @@ const port = process.env.APP_PORT;
 const app = express();
 const authRouter = require("./routes/auth");
 const shortLinksRouter = require("./routes/shortlinks");
+const shortLinkRepo = require("./repositories/shortlinks");
 
 // middlerwares
 app.use(express.json());
@@ -16,6 +18,23 @@ app.use(morgan("dev"));
 // routes
 app.use("/api/auth", authRouter);
 app.use("/api/short-links", shortLinksRouter);
+
+app.get("/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
+  if (!shortid.isValid(shortId)) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const shortUrl = `${process.env.APP_URL}/${shortId}`;
+  const shortlink = await shortLinkRepo.findShortLinkUrl(shortUrl);
+
+  if (!shortlink) {
+    res.sendStatus(404);
+    return;
+  }
+  res.redirect(shortlink.original_url);
+});
 
 app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
@@ -41,5 +60,3 @@ app
   .listen(port, () => console.log(`Server is up and running on port ${port}`))
   .on("SIGTERM", startGracefulShutdown)
   .on("SIGINT", startGracefulShutdown);
-
-

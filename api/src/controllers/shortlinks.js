@@ -2,8 +2,8 @@ const {
   shortlinksIndexRequest,
   shortlinksCreateRequest,
 } = require("../dtos/shortlinks");
-const shortLinksRepo = require("../repository/shortlinks");
-const userRepo = require("../repository/user");
+const shortLinksRepo = require("../repositories/shortlinks");
+const userRepo = require("../repositories/user");
 var shortid = require("shortid");
 
 const index = async (req, res, next) => {

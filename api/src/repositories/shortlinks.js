@@ -26,7 +26,7 @@ const createShortLinks = async (originalUrl, shortUrl, userId) => {
 };
 
 const findShortLinkUrlQuery = `
-    SELECT id FROM short_links where short_url=$1;
+    SELECT * FROM short_links where short_url=$1 LIMIT 1;
 `;
 const findShortLinkUrl = async (shortUrl) => {
     const result = await database.query(findShortLinkUrlQuery, [shortUrl]);

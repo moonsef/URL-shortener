@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const userRepo = require("../repository/user");
+const userRepo = require("../repositories/user");
 const { loginRequest, registerRequest } = require("../dtos/auth");
 
 const login = async (req, res, next) => {
