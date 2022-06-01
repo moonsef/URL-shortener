@@ -6,13 +6,13 @@ const loginRequest = Joi.object({
 });
 
 const registerRequest = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-    confirm_password: Joi.ref('password'),
-  });
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  confirm_password: Joi.ref("password"),
+});
 
 module.exports = {
-    loginRequest,
-    registerRequest,
+  loginRequest,
+  registerRequest,
 };

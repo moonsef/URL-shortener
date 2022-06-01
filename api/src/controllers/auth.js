@@ -2,10 +2,9 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authRepo = require("../repository/auth");
-const {loginRequest,registerRequest} = require("../dtos/auth");
+const { loginRequest, registerRequest } = require("../dtos/auth");
 
 const login = async (req, res, next) => {
- 
   const { error, value } = loginRequest.validate(req.body);
 
   if (error) {
@@ -39,7 +38,6 @@ const login = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
- 
   const { error, value } = registerRequest.validate(req.body);
 
   if (error) {
@@ -48,12 +46,11 @@ const register = async (req, res, next) => {
   }
 
   try {
-    
   } catch (err) {
     res.status(500);
     next(err);
   }
-}
+};
 
 module.exports = {
   login,
