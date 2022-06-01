@@ -24,7 +24,17 @@ const createUser = async (name, email, password) => {
   return result.rows[0];
 };
 
+const findUserByUidQuery = `
+  SELECT * FROM users WHERE uid=$1 LIMIT 1;
+`;
+
+const findUserByUid = async (userUid) => {
+  const result = await database.query(findUserByUidQuery, [userUid]);
+  return result.rows[0];
+}
+
 module.exports = {
   findUserByEmail,
   createUser,
+  findUserByUid,
 };

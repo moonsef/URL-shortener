@@ -3,6 +3,7 @@ const {
   shortlinksCreateRequest,
 } = require("../dtos/shortlinks");
 const shortLinksRepo = require("../repository/shortlinks");
+const userRepo = require("../repository/user");
 var shortid = require("shortid");
 
 const index = async (req, res, next) => {
@@ -14,9 +15,8 @@ const index = async (req, res, next) => {
   }
 
   try {
-    // TODO: change userUid to be dynamic (from JWT)
     const result = await shortLinksRepo.findUserShortlinks(
-      "4fa44569-aa36-4f28-801c-2cbf3a93ba7b",
+      req.user.uid,
       value.offset
     );
     res.json(result);
@@ -42,12 +42,16 @@ const create = async (req, res, next) => {
       res.status(400).json({ message: "short_id_already_exists" });
       return;
     }
+    const user = await userRepo.findUserByUid(req.user.uid);
 
-    // TODO: change userUid to be dynamic (from JWT)
+    if (!user) {
+      res.sendStatus(400);
+      return;
+    }
     const result = await shortLinksRepo.createShortLinks(
       value.original_url,
       shortUrl,
-      1
+      user.id
     );
 
     res.json(result);
