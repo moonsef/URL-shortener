@@ -2,14 +2,11 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authRepo = require("../repository/auth");
+const {loginRequest,registerRequest} = require("../dtos/auth");
 
 const login = async (req, res, next) => {
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  });
-
-  const { error, value } = schema.validate(req.body);
+ 
+  const { error, value } = loginRequest.validate(req.body);
 
   if (error) {
     res.status(400).json({ message: "validation_error" });
@@ -41,6 +38,24 @@ const login = async (req, res, next) => {
   }
 };
 
+const register = async (req, res, next) => {
+ 
+  const { error, value } = registerRequest.validate(req.body);
+
+  if (error) {
+    res.status(400).json({ message: "validation_error" });
+    return;
+  }
+
+  try {
+    
+  } catch (err) {
+    res.status(500);
+    next(err);
+  }
+}
+
 module.exports = {
   login,
+  register,
 };
