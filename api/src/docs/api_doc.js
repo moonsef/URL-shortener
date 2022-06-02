@@ -1,5 +1,5 @@
 const { login, loginBody, register, registerBody } = require("./auth");
-
+const { shortLinkIndexQuery, shortLinkIndex,shortLink,allShortLinks } = require("./short_link");
 const apiDocumentation = {
   openapi: "3.0.1",
   info: {
@@ -22,19 +22,35 @@ const apiDocumentation = {
     {
       name: "Auth",
     },
+    {
+      name: "Short links",
+    },
   ],
   paths: {
     "/auth/login": {
       post: login,
     },
     "/auth/regsiter": {
-        post: register,
-      },
+      post: register,
+    },
+    "/short-links": {
+      get: shortLinkIndex,
+    },
   },
   components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
     schemas: {
       loginBody,
       registerBody,
+      shortLinkIndexQuery,
+      shortLink,
+      allShortLinks,
     },
   },
 };
