@@ -121,9 +121,185 @@ const shortLink = {
   },
 };
 
+
+const shortLinkCreate = {
+  tags: ["Short links"],
+  description: "Create user short links",
+  operationId: "shortLinkCreate",
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  requestBody: {
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/shortLinkCreateBody",
+        },
+      },
+    },
+    required: true,
+  },
+  
+  responses: {
+    200: {
+      description: "User short links list",
+      content: {
+        "application/json": {
+          schema: {
+            $ref: '#/components/schemas/shortLink'
+          },
+        },
+      },
+    },
+    400: {
+      description: "Bad request",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "validation_error",
+              },
+            },
+          },
+        },
+      },
+    },
+    401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                  example: "Unauthorized",
+                },
+              },
+            },
+          },
+        },
+      },
+    500: {
+      description: "Internal Server Error",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "internal_server_error",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+const shortLinkCreateBody = {
+  type: "object",
+  properties: {
+    original_url: {
+      type: "string",
+      example: "http://monsef.me",
+    },
+  },
+};
+
+const shortLinkRedirect = {
+  tags: ["Short links"],
+  description: "Redirect to the original link",
+  operationId: "shortLinkRedirect",
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  parameters: [
+    {
+      name: "shortId",
+      in: "path",
+      type: "string",
+      required: true,
+    }
+  ],
+  responses: {
+    302: {
+      description: "Redirect to the original link",
+      content: {
+        "application/json": {
+          schema: {
+            type: "string"
+          },
+        },
+      },
+    },
+    404: {
+      description: "Not Found",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "Not found",
+              },
+            },
+          },
+        },
+      },
+    },
+    400: {
+      description: "Bad request",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "validation_error",
+              },
+            },
+          },
+        },
+      },
+    },
+    500: {
+      description: "Internal Server Error",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "internal_server_error",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+
 module.exports = {
   shortLinkIndex,
   shortLink,
   shortLinkIndexQuery,
   allShortLinks,
+  shortLinkCreate,
+  shortLinkCreateBody,
+  shortLinkRedirect,
 };

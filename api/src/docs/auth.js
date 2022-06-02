@@ -70,12 +70,12 @@ const loginBody = {
   properties: {
     email: {
       type: "string",
-      example: "john.snow@email.com",
+      example: "monsef@gmail.com",
     },
     password: {
       type: "string",
       description: "unencrypted user's password",
-      example: "!1234aWe1Ro3$#",
+      example: "testtest123",
     },
   },
 };
