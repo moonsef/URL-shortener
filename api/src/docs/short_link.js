@@ -13,7 +13,7 @@ const shortLinkIndex = {
       in: "query",
       type: "string",
       required: true,
-    }
+    },
   ],
   responses: {
     200: {
@@ -21,7 +21,7 @@ const shortLinkIndex = {
       content: {
         "application/json": {
           schema: {
-            $ref: '#/components/schemas/allShortLinks'
+            $ref: "#/components/schemas/allShortLinks",
           },
         },
       },
@@ -43,21 +43,21 @@ const shortLinkIndex = {
       },
     },
     401: {
-        description: "Unauthorized",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                message: {
-                  type: "string",
-                  example: "Unauthorized",
-                },
+      description: "Unauthorized",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "Unauthorized",
               },
             },
           },
         },
       },
+    },
     500: {
       description: "Internal Server Error",
       content: {
@@ -89,11 +89,11 @@ const shortLinkIndexQuery = {
 };
 
 const allShortLinks = {
-    type: "array",
-    items: {
-        $ref: "#/components/schemas/shortLink"
-    }
-}
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/shortLink",
+  },
+};
 
 const shortLink = {
   type: "object",
@@ -121,7 +121,6 @@ const shortLink = {
   },
 };
 
-
 const shortLinkCreate = {
   tags: ["Short links"],
   description: "Create user short links",
@@ -141,14 +140,14 @@ const shortLinkCreate = {
     },
     required: true,
   },
-  
+
   responses: {
     200: {
       description: "User short links list",
       content: {
         "application/json": {
           schema: {
-            $ref: '#/components/schemas/shortLink'
+            $ref: "#/components/schemas/shortLink",
           },
         },
       },
@@ -170,21 +169,21 @@ const shortLinkCreate = {
       },
     },
     401: {
-        description: "Unauthorized",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                message: {
-                  type: "string",
-                  example: "Unauthorized",
-                },
+      description: "Unauthorized",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              message: {
+                type: "string",
+                example: "Unauthorized",
               },
             },
           },
         },
       },
+    },
     500: {
       description: "Internal Server Error",
       content: {
@@ -228,17 +227,16 @@ const shortLinkRedirect = {
       name: "shortId",
       in: "path",
       type: "string",
+      example: "75sPDGejG",
       required: true,
-    }
+    },
   ],
   responses: {
     302: {
       description: "Redirect to the original link",
-      content: {
-        "application/json": {
-          schema: {
-            type: "string"
-          },
+      headers: {
+        location: {
+          type: "string",
         },
       },
     },
@@ -292,7 +290,6 @@ const shortLinkRedirect = {
     },
   },
 };
-
 
 module.exports = {
   shortLinkIndex,
